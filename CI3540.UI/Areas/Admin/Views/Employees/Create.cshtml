@@ -1,0 +1,78 @@
+﻿
+@model CI3540.Core.Entities.Employee
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Employee</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Forename)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Forename)
+            @Html.ValidationMessageFor(model => model.Forename)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Surname)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Surname)
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        
+         <div class="editor-label">
+            @Html.LabelFor(model => model.EmployeeNumber)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EmployeeNumber)
+            @Html.ValidationMessageFor(model => model.EmployeeNumber)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateCreated)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateCreated)
+            @Html.ValidationMessageFor(model => model.DateCreated)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DateModified)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DateModified)
+            @Html.ValidationMessageFor(model => model.DateModified)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+
+
+}

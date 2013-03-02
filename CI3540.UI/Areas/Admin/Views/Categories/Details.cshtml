@@ -1,0 +1,53 @@
+﻿
+@using CI3540.UI.Areas.Store.Models
+@model CategoryViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<fieldset>
+    <legend>Category <small>Details</small></legend>
+    <dl class="dl-horizontal">
+        <dt>Id</dt>
+        <dd>@Model.Id</dd>
+        <dt>Name</dt>
+        <dd>@Model.Name</dd>
+        <dt>Description</dt>
+        <dd>@Model.Description</dd>
+        <dt>Parent Category</dt>
+        <dd>@Model.ParentName</dd>
+    </dl>
+</fieldset>
+<fieldset>
+    <legend>Child Categories <small>Details</small></legend>
+    @if (Model.Children.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Products</th>
+                </tr>
+            </thead>
+            <tbody>
+               @foreach (CategoryViewModel category in Model.Children)
+               {
+                   <tr>
+                       <td>@category.Id</td>
+                       <td>@category.Name</td>
+                       <td>@category.Description</td>
+                       <td>@category.NumberOfProducts</td>
+                   </tr>
+               }
+            </tbody>
+        </table>
+    }
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

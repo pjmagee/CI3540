@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_basic.layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            @RenderSection("SideBar", required: true)
+        </div>
+        <div class="span6">
+            @RenderSection("Listing", required: true)
+        </div>
+        <div class="span4">
+            @RenderSection("Cart", required: false)
+        </div>
+    </div>
+</div>
+
+@section Scripts 
+{
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,9 @@
+﻿
+@using (Html.BeginForm("Index", "Products", new {area = "Store"}, FormMethod.Get, new {@class = "form-search form-inline"}))
+{
+    @Html.DropDownList("pageSize", (SelectList) ViewBag.PageSize, "Page Size", new { title = "Results per page", style = "width: 150px"})
+    <div class="input-append">
+        @Html.TextBox("productName", ViewBag.CurrentName as string, new {@class = "input-medium search-query", placeholder = "Product Name..."})
+        <button type="submit" class="btn">Search</button>
+    </div>
+}

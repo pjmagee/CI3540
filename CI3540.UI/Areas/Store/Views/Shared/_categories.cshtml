@@ -1,0 +1,24 @@
+﻿
+@using CI3540.UI.BootstrapSupport
+@model IEnumerable<CI3540.UI.Areas.Store.Models.CategoryViewModel>
+
+<div class="sidebar-nav">
+    
+    <ul class="nav nav-list">
+        
+        @foreach (var category in Model.OrderBy(model => model.Name))
+        {
+            if (category.IsParentCategory)
+            {
+                @Html.CategoryHeaderItem(category.Name, "Index", "Products", "Store", new {area = "Store", categoryId = category.Id, categoryName = category.Name.UrlFriendly()})
+            }
+            foreach (var child in category.Children.OrderBy(model => model.Name))
+            {
+                var linkText = child.Name + " (" + child.NumberOfProducts + ")";
+                @Html.CategoryMenuItem(linkText, "Index", "Products", "Store", new {area = "Store", categoryId = child.Id, categoryName = child.Name.UrlFriendly()})
+            }
+        }
+
+    </ul>
+
+</div>

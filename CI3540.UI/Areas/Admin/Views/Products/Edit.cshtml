@@ -1,0 +1,168 @@
+﻿
+@model CI3540.UI.Areas.Admin.Models.EditProductViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>Product</legend>
+
+        @Html.HiddenFor(model => model.Id)
+        
+        <!-- Current Categories -->
+        <!-- http://haacked.com/archive/2008/10/23/model-binding-to-a-list.aspx -->
+
+        <div id="categories" style="display: none">
+            @for (int i = 0; i < Model.Tags.Count; i++)
+            {
+                <div class="category" id="@Model.Tags[i].CategoryId">
+                    @Html.HiddenFor(model => Model.Tags[i].CategoryId)
+                    @Html.HiddenFor(model => Model.Tags[i].CategoryName)
+                    @Html.HiddenFor(model => Model.Tags[i].CategoryDescription)
+                </div>
+            }
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Name, new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.Name, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label"})
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Description, new {@class = "input-xlarge"})
+                 @Html.ValidationMessageFor(model => model.Description, null, new {@class = "help-inline"})
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Price, new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Price, new {@class = "input-small"})
+                @Html.ValidationMessageFor(model => model.Price, null, new {@class = "help-inline"})
+            </div>
+        </div>
+       
+        <div class="control-group">
+            @Html.LabelFor(model => model.Stock, new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Stock, new { @class = "input-small", type = "number" })
+                @Html.ValidationMessageFor(model => model.Stock, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+        <!-- Add New Images -->
+        <div class="control-group">
+            @Html.LabelFor(model => model.Files, "Upload Images", new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Files, null, new { type = "file", @class = "input-xlarge", multiple = "multiple" })
+            </div>
+        </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.Images, "Images", new { @class = "control-label"})
+            <div class="controls">
+                @Html.ValidationMessage("SelectedDefaultImage", null, new {@class = "help-inline"})
+                <ul class="thumbnails">
+                    @for (int i = 0; i < Model.Images.Count(); i++)
+                    {
+                        <li class="span3">
+                            <div class="thumbnail">
+                                <img title="@Model.Images[i].Url" @*data-src="holder.js/64x64"*@ src="@Model.Images[i].Url" alt="@Model.Images[i].Id" />
+                                <div style="margin: 0 auto; width: 90%">
+                                    <label title="select default image" class="radio">
+                                        @Html.RadioButton("SelectedDefaultImage", Model.Images[i].Id, Model.Images[i].Default) Default
+                                    </label>
+                                    <label class="checkbox">
+                                        @Html.HiddenFor(model => Model.Images[i].Id)
+                                        @Html.HiddenFor(model => Model.Images[i].Url)
+                                        @Html.HiddenFor(model => Model.Images[i].Default)
+                                        @Html.CheckBoxFor(model => Model.Images[i].Delete) Delete
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.CategoryIds, "Categories", new { @class = "control-label" })
+            <div class="controls">
+                <ul id="CategoryTags" data-name="CategoryIds"></ul>
+            </div>
+        </div>
+     
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Save" />
+            @Html.ActionLink("Cancel", "Index", "Products", null, new { @class = "btn " })
+        </div>
+
+    </fieldset>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts
+{
+    
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            // http://webspirited.com/tagit/docs.html
+
+            $('ul#CategoryTags').tagit({
+                select: true,
+                caseSensitive: true,
+                triggerKeys: [],
+                allowNewTags: false,
+                sortable: false,
+                tagSource: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("Autocomplete", "Categories", new { area = "Admin" })',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { name: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Name, value: item.Id };
+                            }));
+                        },
+                        error: function () {
+                            return { label: "There was an error getting categories", value: "" };
+                        }
+                    });
+                },
+                initialTags: ($.map($('div.category'), function (item) {
+                    return {
+                        label: $(item).find('input[name$="CategoryName"]').val(), // 'input[name^="Tags"]' starts or ends with
+                        value: $(item).find('input[name$="CategoryId"]').val() // 'input[name^="Tags"]' starts or ends with
+                    };
+                })),
+            });
+
+            
+
+        });
+
+    </script>
+    
+    
+
+}

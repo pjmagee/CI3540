@@ -1,0 +1,163 @@
+﻿
+@using CI3540.UI.Areas.Store.Models
+@using CI3540.UI.BootstrapSupport
+@using CI3540.UI.BootstrapSupport.HtmlHelpers.Paging
+
+@model IPagedList<ProductViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Product Listing</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@{
+    var Tags = ViewBag.CategoryIds as List<CategoryTagViewModel>;
+
+    <div class="categories" style="display: none">
+        @if (Tags != null)
+        {
+            for (int i = 0; i < Tags.Count; i++)
+            {
+                <div class="category">
+                    @Html.Hidden("CategoryId", Tags[i].CategoryId);
+                    @Html.Hidden("CategoryName", Tags[i].CategoryName);
+                </div>
+            }
+        }
+    </div>
+}
+
+@using (Html.BeginForm("Index", "Products", new { area = "Admin" }, FormMethod.Get, new { @class = "form" }))
+{
+    <fieldset class="form-search form-horizontal">
+        <legend>Filter Products</legend>
+    
+        <div class="control-group">
+            @Html.Label("categoryId", "Parent Category", new { @class = "control-label "})
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon-book"></i>
+                    </span>
+                    @Html.DropDownList("categoryId", (SelectList)ViewBag.Categories, "Under Category", new { @class = "input-large" })
+                </div>
+            </div>
+        </div>
+    
+        <div class="control-group">
+            @Html.Label("CategoryIds", "Under these categories", new { @class = "control-label "})
+            <div class="controls">
+                <ul id="CategoryTags" data-name="CategoryIds"></ul>
+            </div>
+        </div>
+    
+        <div class="control-group">
+            @Html.Label("name", "Product Name", new { @class = "control-label "})
+            <div class="controls">
+                @Html.TextBox("name", null, new { @class = "input-medium search-query", placeholder = "Product Name" })
+            </div>
+        </div>
+    
+        <div class="controls">
+            <button type="submit" class="btn"><i class="icon-search"></i> Search</button>
+        </div>
+    </fieldset>
+}
+
+@Html.SmartPager(Model.PageIndex, Model.TotalPages, x => Url.Action("Index", "Products", Request.QueryString.ToRouteValues(new { area = "Admin", page = x })), "pagination-small")
+
+<table class="table table-bordered table-condensed table-striped table-hover">
+    <caption></caption>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Thumbnail</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td><img class="img-rounded" title="@item.DefaultImageUrl" src="holder.js/64x64" alt="@item.Name"/></td>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price.ToString("C")</td>
+                <td>@item.Stock</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            Action <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @{
+                                var routevalues = item.GetIdValue();  
+                                <li>@Html.ActionLink("Edit", "Edit", routevalues)</li>
+                                <li>@Html.ActionLink("Details", "Details", routevalues)</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Delete", "Delete", routevalues)</li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@Html.SmartPager(Model.PageIndex, Model.TotalPages, x => Url.Action("Index", "Products", Request.QueryString.ToRouteValues(new { area = "Admin", page = x })), "pagination-small")
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            // http://webspirited.com/tagit/docs.html
+
+            $('ul#CategoryTags').tagit({
+                select: true, // Just set a GET request with comma seperated values of the category ids
+                caseSensitive: true,
+                triggerKeys: [],
+                maxTags: 5,
+                allowNewTags: false,
+                sortable: false,
+                tagSource: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("Autocomplete", "Categories", new { area = "Admin" })',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { name: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Name, value: item.Id };
+                            }));
+                        },
+                        error: function () {
+                            return { label: "There was an error getting categories", value: "" };
+                        }
+                    });
+                },
+                initialTags: ($.map($('div.category'), function (item) {
+                    return {
+                        label: $(item).find('input[name$="CategoryName"]').val(), // 'input[name^="Tags"]' starts or ends with
+                        value: $(item).find('input[name$="CategoryId"]').val() // 'input[name^="Tags"]' starts or ends with
+                    };
+                })),
+            });
+        });
+        
+    </script>
+    
+}

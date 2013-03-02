@@ -1,0 +1,101 @@
+﻿
+@using CI3540.UI.Areas.Store.Models
+@using CI3540.UI.BootstrapSupport
+@using CI3540.UI.BootstrapSupport.HtmlHelpers.Paging
+@model ListingViewModel
+
+@{
+    ViewBag.Title = "Products";
+}
+
+@section SideBar 
+{
+    @{
+        var categories = ViewBag.Categories as IEnumerable<CategoryViewModel>;
+        
+        if (categories != null)
+        {
+            @Html.Partial("_categories", categories)
+        }
+    }
+}
+
+@section Listing 
+{
+    <div class="row-fluid">
+        @Html.Partial("_search")
+    </div>
+
+    @{
+        var products = ViewBag.Products as IPagedList<ProductViewModel>;
+
+        if (products != null)
+        {
+            @Html.SmartPager(products.PageIndex, products.TotalPages, x => Url.Action("Index", "Products", Request.QueryString.ToRouteValues(new {area = "Store", page = x})), "pagination-mini")
+
+            foreach (var product in products)
+            {
+                <div class="well well-small">
+                    <div class="media" style="position: relative">
+                        <a class="pull-left" href="#">
+                            <img class="media-object" alt="" src="" data-src="holder.js/128x128" />
+                        </a>
+                        <div class="media-body">
+                            <div class="product-heading-price-container">
+                                <h4 class="media-heading pull-left">@product.Name</h4>
+                                <h3 class="media-heading pull-right">@product.Price.ToString("C")<small> inc. VAT</small></h3>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <p>@product.Description</p>
+                        </div>
+                        <div class="media-body">
+                            @Html.Partial("_stock", product)
+                        </div>
+                        @using (Html.BeginForm("Add", "Cart", new {area = "Store"}, FormMethod.Get))
+                        {
+                            <div class="cart-actions" style="position: absolute; bottom: 0; right: 0;">
+                                @Html.Hidden("productId", product.Id)
+                                @Html.TextBox("quantity", 1, new {style = "width: 35px; margin-bottom: 0;", type = "number"})
+                                <button class="btn btn-small btn-primary" type="submit">
+                                    <i class="icon-shopping-cart"></i> Add to Cart
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @Html.SmartPager(products.PageIndex, products.TotalPages, x => Url.Action("Index", "Products", Request.QueryString.ToRouteValues(new {area = "Store", page = x})), "pagination-mini")
+        }
+
+    }
+}
+
+@section Cart
+{
+    @{
+        var cart = ViewBag.Cart as CartViewModel;
+        
+        <div id="stickyCart">
+            @if (cart != null)
+            {
+                @Html.Partial("_cart", cart)
+            }
+        </div>
+    }
+}
+
+@section Scripts 
+{
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $('#stickyCart').sticky({
+                topSpacing: 60
+            });
+        });
+
+    </script>
+}

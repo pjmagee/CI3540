@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/bootstrap/css")
+        @RenderSection("head", required: false)
+        @Html.Partial("_html5shiv")
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="@Url.Action("Index", "Home", new { area = "" })">CI3540</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li>
+                                @Html.ActionLink("Index", "Index", "Home", new { area = "" }, null)
+                            </li>
+                            <li>
+                                @Html.ActionLink("Store", "Index", "Products", new { area = "Store" }, null)
+                            </li>
+                        </ul>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <div class="btn-group">
+                                <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
+                                    Admin Menu <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        @Html.ActionLink("Category Listing", "Index", "Categories", new {area = "Admin"}, null)
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Add Category", "Create", "Categories", new {area = "Admin"}, null)
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        @Html.ActionLink("Product Listing", "Index", "Products", new {area = "Admin"}, null)
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Add Product", "Create", "Products", new {area = "Admin"}, null)
+                                    </li>
+                                </ul>
+                            </div>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="btn-group pull-right">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    My Account <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @{
+                                        <li>@Html.ActionLink("Manage", "Manage", "Account", new { area = ""}, null)</li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            @using (Html.BeginForm("LogOff", "Account", new { area = ""}, FormMethod.Post, new { id = "logoff" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                            }
+                                            <a href="#" onclick="document.getElementById('logoff').submit();">Sign out</a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("Login", "Account", new { area = "", ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new { @class = "navbar-form pull-right"}))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.TextBox("Email", null, new { placeholder = "Email", @class = "span2"})
+                                @Html.Password("Password", null, new { placeholder = "Password", @class = "span2"})
+                                <button type="submit" class="btn">Sign in</button>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            @Html.Partial("_alerts")
+            @Html.Partial("_validationSummary")
+            @RenderBody()   
+            <hr/>
+            <footer>
+                <p>&copy; Company @DateTime.Now.ToString("yyyy")</p>
+            </footer> 
+        </div>
+        @Scripts.Render("~/js")
+        @RenderSection("Scripts", required: false)
+    </body>
+</html>

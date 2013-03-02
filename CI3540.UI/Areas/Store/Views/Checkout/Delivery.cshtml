@@ -1,0 +1,87 @@
+﻿
+@using CI3540.UI.Areas.Store.Models
+@model DeliveryViewModel
+@{
+    ViewBag.Title = "Delivery";
+    ViewBag.OrderStage = OrderStage.Delivery;
+}
+
+<h2>Delivery Information</h2>
+
+@section SideBar 
+{ 
+    @{
+
+        var categories = ViewBag.Categories as IEnumerable<CategoryViewModel>;
+        
+        if (categories != null)
+        {
+            @Html.Partial("_categories", categories)
+        }
+    }
+}
+
+@section OrderStage
+{
+   @Html.Partial("_stage")
+}
+
+@section OrderProcess
+{
+    @using (Html.BeginForm("Delivery", "Checkout", new { area = "Store" }, FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <fieldset>
+            <legend>Delivery Info</legend>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <!-- Current Address -->
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.DeliveryAddressId, "Delivery Address", new { @class = "control-label"})
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.DeliveryAddressId, (SelectList) ViewBag.Addresses, "Delivery Address")
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <!-- Current Address -->
+                    <div class="control-group">
+                        @Html.LabelFor(model => model.InvoiceAddressId, "Invoice Address", new { @class = "control-label"})
+                        <div class="controls">
+                            @Html.DropDownListFor(model => model.InvoiceAddressId, (SelectList) ViewBag.Addresses, "Invoice Address")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                
+                <a href="@Url.Action("Cart", "Checkout", new { area = "Store" })" class="btn">Back to Cart</a>
+                <button type="submit" class="btn btn-success">
+                    Continue <i class="icon-chevron-right"></i>
+                </button>
+            </div>
+        </fieldset>
+    }
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        //$('input#InvoiceSameAsDelivery').change(function () {
+        //    if ($('input#InvoiceSameAsDelivery').is(":checked")) {
+        //        $('section#newInvoiceAddress input[type="text"]').each(function () {
+        //            $(this).attr("disabled", "disabled");
+        //        });
+        //    } else {
+        //        $('section#newInvoiceAddress input[type="text"]').each(function() {
+        //            $(this).removeAttr("disabled");
+        //        });
+        //    }
+        //});
+
+    </script>
+}
+
+
+

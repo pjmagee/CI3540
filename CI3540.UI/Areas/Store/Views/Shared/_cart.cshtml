@@ -1,0 +1,76 @@
+﻿
+@model CI3540.UI.Areas.Store.Models.CartViewModel
+
+<table class="table table-condensed">
+    <caption>Your Shopping Cart</caption>
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var item in Model.OrderLineViewModels)
+        {
+            <!-- ORDER LINE -->
+            <tr> 
+                <!-- PRODUCT -->
+                <td>
+                    <span class="cart-item-product">
+                        <a style="width: 120px; overflow: hidden; text-overflow: ellipsis; display: block;" href="@Url.Action("Details", "Products", new {area = "Store", id = item.ProductId})">@item.ProductName</a>
+                    </span>
+                </td> 
+            
+                <!-- QTY -->
+                <td>
+                    <span class="cart-item-quantity label">@string.Format("x{0}", item.Quantity)</span>
+                </td> 
+            
+                <!-- PRICE -->
+                <td>
+                    <span class="cart-item-cost label label-info">@item.Total.ToString("C")</span>
+                </td> 
+            
+                <!-- ADD / REM / DEL -->
+                <td>
+                    <span title="Add Item" class="cart-item-add">
+                        <a class="btn btn-mini btn-success" href="@Url.Action("Add", "Cart", new {orderlineId = item.Id, productId = item.ProductId, quantity = 1})">+</a>
+                    </span>
+                    <span title="Remove Item" class="cart-item-remove">
+                        <a class="btn btn-mini btn-warning" href="@Url.Action("Remove", "Cart", new {orderLineId = item.Id, productId = item.ProductId, quantity = 1})">-</a>
+                    </span>
+                    <span title="Delete" class="cart-item-remove">
+                        <a class="btn btn-mini btn-danger" href="@Url.Action("Remove", "Cart", new {orderlineId = item.Id, productId = item.ProductId, remove = true,})">x</a>
+                    </span>
+                </td> 
+            </tr> 
+        }
+    
+        <!-- VAT -->
+        <tr>
+            <th colspan="2">VAT @@ 17.5%</th>
+            <td>@((Model.Total - Model.Tax).ToString("C"))</td>
+            <td>-</td>
+        </tr> 
+    
+        <!-- TOTAL -->
+        <tr>
+            <th colspan="2">Total</th>
+            <td>@Model.Total.ToString("C")</td>
+            <td>-</td>
+        </tr> 
+    
+        <!-- CHECKOUT -->
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="2">
+                <a href="@Url.Action("Cart", "Checkout")" type="submit" class="btn btn-success btn-block">
+                    Continue <i class="icon-chevron-right"></i>
+                </a>
+            </td> 
+        </tr>
+    </tbody>
+</table>

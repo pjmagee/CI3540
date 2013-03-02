@@ -1,0 +1,55 @@
+﻿
+@using System.Web.Mvc.Html
+@model CI3540.UI.Areas.Admin.Models.NewCategoryViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm("Create", "Categories", FormMethod.Post)) {
+    
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>Category</legend>
+        <div class="control-group">
+            @Html.LabelFor(category => category.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name, new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.Name, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(category => category.Description, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Description, new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.Description, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        <div class="control-group">
+            @Html.LabelFor(category => category.ParentId, "Parent Category", new { @class = "control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ParentId, (SelectList) ViewBag.Categories, "Category", new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.ParentId, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Category</button>
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+    
+    <script type="text/javascript">
+
+     
+    </script>
+
+}

@@ -1,0 +1,48 @@
+﻿
+@model CI3540.UI.Areas.Store.Models.CategoryViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Category</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="control-group">
+            @Html.LabelFor(category => category.Name, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Name, new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.Name, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+         <div class="control-group">
+            @Html.LabelFor(category => category.Description, new { @class = "control-label" })
+            <div class="controls">
+                @Html.EditorFor(model => model.Description, new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.Description, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(category => category.ParentId, new { @class = "control-label" })
+            <div class="controls">
+                @Html.DropDownListFor(model => model.ParentId, (SelectList) ViewBag.Categories, "Category", new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.ParentId, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Save" /> | @Html.ActionLink("Back to List", "Index", "Categories", new { area = "Admin" }, new { @class = "btn "})
+        </div>
+
+    </fieldset>
+}

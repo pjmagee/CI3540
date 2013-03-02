@@ -1,0 +1,115 @@
+﻿
+@model CI3540.UI.Areas.Admin.Models.NewProductViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-horizontal">
+        <legend>Product</legend>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Name, new {@class = "input-xlarge"})
+                @Html.ValidationMessageFor(model => model.Name, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label"})
+            <div class="controls">
+                 @Html.TextBoxFor(model => model.Description, new {@class = "input-xlarge"})
+                 @Html.ValidationMessageFor(model => model.Description, null, new {@class = "help-inline"})
+            </div>
+        </div>
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.Price, new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Price, new {@class = "input-small"})
+                @Html.ValidationMessageFor(model => model.Price, null, new {@class = "help-inline"})
+            </div>
+        </div>
+       
+        <div class="control-group">
+            @Html.LabelFor(model => model.Stock, new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Stock, new { @class = "input-small", type = "number" })
+                @Html.ValidationMessageFor(model => model.Stock, null, new {@class = "help-inline"})
+            </div>
+        </div>
+        
+        <div class="control-group">
+            @Html.LabelFor(model => model.Files, "Images", new { @class = "control-label"})
+            <div class="controls">
+                @Html.TextBoxFor(model => model.Files, null, new { type = "file", @class = "input-xlarge", multiple = "multiple" })
+            </div>
+        </div>
+        
+        <!-- http://stackoverflow.com/questions/10122692/tagit-limiting-tag-creation-to-the-given-list-by-ajax -->
+        <!-- http://aehlke.github.com/tag-it/ -->
+
+        <div class="control-group">
+            @Html.LabelFor(model => model.CategoryIds, "For categories", new { @class = "control-label"})
+            <div class="controls">
+                <ul id="CategoryTags" data-name="CategoryIds"></ul>
+            </div>
+        </div>
+     
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Create" />
+        </div>
+
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            
+            // http://webspirited.com/tagit/docs.html
+
+            $('ul#CategoryTags').tagit({
+                select: true, 
+                caseSensitive: true,
+                initialTags: [],
+                triggerKeys: [],
+                allowNewTags: false,
+                sortable: false,
+                tagSource: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("Autocomplete", "Categories", new { area = "Admin" })',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: { name: request.term },
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { label: item.Name, value: item.Id };
+                                }));
+                            },
+                            error: function () {
+                                return { label: "There was an error getting categories", value: "" };
+                            }
+                        });
+                    },
+            });
+
+
+        });
+
+    </script>
+}

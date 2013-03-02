@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Views/Shared/_basic.layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            @RenderSection("SideBar", required: true)
+        </div>
+        <div class="span10">
+            <div class="row-fluid">
+                @RenderSection("OrderStage", required: true)
+            </div>
+            <div class="row-fluid">
+                @RenderSection("OrderProcess", required: true)
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+     @RenderSection("Scripts", required: false)
+
+}

@@ -1,0 +1,14 @@
+﻿
+@model CI3540.UI.Models.LocalPasswordViewModel
+
+@{
+    ViewBag.Title = "Manage Account";
+}
+
+<section>
+    <h1>Your Account</h1>
+    <p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+</section>
+<section>
+    @Html.Partial("_ChangePassword")
+</section>

@@ -1,0 +1,69 @@
+﻿
+@using AuthorizeNet.Helpers
+@using CI3540.UI.Areas.Store.Models
+@model PaymentViewModel
+@{
+    ViewBag.Title = "Payment Details";
+}
+
+<h2>Payment Processing</h2>
+
+
+@section SideBar 
+{ 
+    @{
+
+        var categories = ViewBag.Categories as IEnumerable<CategoryViewModel>;
+        
+        if (categories != null)
+        {
+            @Html.Partial("_categories", categories)
+        }
+    }
+}
+
+@section OrderStage
+{
+   @Html.Partial("_stage")
+}
+
+
+@section OrderProcess
+{
+    <form class="form-inline">
+        <fieldset>
+            <legend>Card Details</legend>
+            
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">Card Number</label>
+                    <div class="controls">
+                        <input type="text" placeholder="Your Credit or Debit Card Number" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-horizontal">
+                 <div class="control-group">
+                <label class="control-label">Exp. Date</label>
+                <div class="controls">
+                    <input type="text"  class="input-mini" />
+                </div></div>
+            </div>
+            
+            <div class="form-horizontal">
+                 <div class="control-group">
+                <label class="control-label">CCV</label>
+                <div class="controls">
+                    <input type="text" class="input-mini" placeholder="XXX" />
+                </div></div>
+            </div>
+        
+            <div class="form-actions">
+                <a href="@Url.Action("Delivery", "Checkout", new { area = "Store" })" class="btn">Back to Delivery</a>
+                <button class="btn btn-primary" type="submit">Pay Now</button>
+            </div>
+
+        </fieldset>
+    </form>
+}

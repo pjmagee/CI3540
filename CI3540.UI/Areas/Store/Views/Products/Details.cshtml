@@ -1,0 +1,61 @@
+﻿@model CI3540.UI.Areas.Store.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Product</legend>
+    
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd>@Html.DisplayFor(model => model.Price)</dd>
+        <dt>@Html.DisplayNameFor(model => model.Stock)</dt>
+        <dd>@Html.DisplayFor(model => model.Stock)</dd>
+    </dl>
+</fieldset>
+
+<fieldset>
+    @if (Model.Reviews.Any())
+    {
+        <legend>Reviews by Customers</legend>
+        
+        <table class="table table-bordered table-condensed table-striped">
+            <tr>
+                <td>Customer</td>
+                <td>Rating</td>
+                <td>Comment</td>
+                <td>Added on</td>
+            </tr>
+        
+            @foreach (var review in Model.Reviews)
+            {
+                <tr>
+                    <td>@review.AuthorName</td>
+                    <td>@review.Rating</td>
+                    <td>@review.Comment</td>
+                    <td>@review.DatePosted</td>
+                </tr>
+            }
+        
+        </table>
+    }
+
+    <p>
+        @using (Html.BeginForm())
+        {
+            
+        }
+    </p>
+
+</fieldset>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", "Products", new { area = "Store" })
+</p>

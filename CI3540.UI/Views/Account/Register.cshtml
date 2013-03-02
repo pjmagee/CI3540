@@ -1,0 +1,184 @@
+﻿
+@model CI3540.UI.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "register" })) {
+    
+    @Html.AntiForgeryToken()
+
+    <fieldset class="form-horizontal">
+        <legend>Registration Form</legend>
+        
+        <section>
+            <h4>Login Details</h4>
+
+            <div class="control-group">
+                @Html.LabelFor(model => model.Email, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email, null, new { @class = "help-inline" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                @Html.LabelFor(model => model.Password, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.PasswordFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password, null, new { @class = "help-inline" })
+                </div>
+            </div>
+                
+            <div class="control-group">
+                @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.PasswordFor(model => model.ConfirmPassword)
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { @class = "help-inline" })
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h4>Contact Information</h4>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.Forename, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Forename)
+                    @Html.ValidationMessageFor(model => model.Forename, null, new { @class = "help-inline" })
+                </div>
+            </div>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.Surname, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Surname)
+                    @Html.ValidationMessageFor(model => model.Surname, null, new { @class = "help-inline" })
+                </div>
+            </div>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.PhoneNumber)
+                    @Html.ValidationMessageFor(model => model.PhoneNumber, null, new { @class = "help-inline" })
+                </div>
+            </div>
+            
+            <div class="control-group">
+                @Html.LabelFor(model => model.Address.AddressLine1, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Address.AddressLine1)
+                    @Html.ValidationMessageFor(model => model.Address.AddressLine1, null, new { @class = "help-inline" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                @Html.LabelFor(model => model.Address.AddressLine2, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Address.AddressLine2)
+                    @Html.ValidationMessageFor(model => model.Address.AddressLine2, null, new { @class = "help-inline" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                @Html.LabelFor(model => model.Address.City, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Address.City)
+                    @Html.ValidationMessageFor(model => model.Address.City, null, new { @class = "help-inline" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                @Html.LabelFor(model => model.Address.County, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Address.County)
+                    @Html.ValidationMessageFor(model => model.Address.County, null, new { @class = "help-inline" })
+                </div>
+            </div>
+        
+            <div class="control-group">
+                @Html.LabelFor(model => model.Address.PostCode, new { @class = "control-label"})
+                <div class="controls">
+                    @Html.TextBoxFor(model => model.Address.PostCode)
+                    @Html.ValidationMessageFor(model => model.Address.PostCode, null, new { @class = "help-inline" })
+                </div>
+            </div>
+            
+        </section>
+
+    </fieldset>
+    
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Register" />
+    </div>
+    
+}
+
+@section Scripts {
+   
+    <script type="text/javascript">
+
+        $(function() {
+
+            // http://www.9lessons.info/2008/12/twitter-used-jquery-plug-in.html
+            // Idea taken and modified, also taken parts of twitter bootstrap obtrusive validation.
+            
+            var taken = false;
+            
+            $('input#Email').keyup(function () {
+                //checkEmail();
+            });
+
+            $('input#Email').blur(function() {
+                //checkEmail();
+            });
+            
+            // Not required anymore
+            // Using FluentValidation Remote call.
+            function checkEmail() {
+
+                if ($('form#register input#Email').valid() && $('form#register input#Email').length > 0) {
+
+                    var address = $('form#register input#Email').val();
+                    
+                    $.getJSON('@Url.Action("ValidateEmail")', { email: address }, function (data) {
+
+                        var container = $('form#register').find("[data-valmsg-for='Email']");
+
+                        if (data) {
+                            
+                            container.removeClass("field-validation-valid").addClass("field-validation-error");
+                            container.closest(".control-group").addClass("error");
+                            container.closest(".control-group").find('span').html('<span for="Email" generated="true" class="" style="">' + "'Email'" + " has already been taken." + '</span>');
+                            taken = true;
+
+                        } else {
+                                                       
+                            container.addClass("field-validation-valid").removeClass("field-validation-error");
+                            container.closest(".control-group").removeClass("error");
+                            container.closest(".control-group").find('span').html('');
+                            
+                        }
+
+                    });
+                    
+                } else {
+
+                    // Not valid, so can not be taken, reset
+                    taken = false;
+                    
+                }
+
+            }
+
+
+        });
+
+    </script>
+    
+
+}

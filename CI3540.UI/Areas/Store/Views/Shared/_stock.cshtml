@@ -1,0 +1,35 @@
+﻿
+@model CI3540.UI.Areas.Store.Models.ProductViewModel
+
+@{
+    var product = Model;
+
+    if (product.Stock > 100)
+    {
+        <span class="label label-success">
+            In Stock (100+)
+        </span>
+    }
+    else
+    {
+        if (product.Stock <= 0)
+        {
+            <span class="label label-important">
+                Out of Stock
+            </span>
+        }
+        else if (product.Stock < 10)
+        {
+            <span class="label label-warning">
+                In Stock (only @product.Stock left)
+            </span>
+        }
+        else
+        {
+            <span class="label label-info">
+                In Stock (@product.Stock left)
+            </span>
+        }
+    }
+
+}

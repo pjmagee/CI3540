@@ -1,0 +1,74 @@
+﻿
+@using CI3540.UI.Areas.Store.Models
+@using CI3540.UI.BootstrapSupport
+@using CI3540.UI.BootstrapSupport.HtmlHelpers.Paging
+@model IPagedList<CategoryViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Category Listing</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+@using (Html.BeginForm("Index", "Categories", FormMethod.Get, new {@class = "form-search form-inline pull-right"}))
+{
+    <div class="input-prepend">
+        <span class="add-on">
+            <i class="icon-book"></i>
+        </span>
+        @Html.DropDownList("categoryId", (SelectList) ViewBag.Categories, "Parent Categories", new {@class = "input-large"})
+    </div>
+
+    <div class="input-append">
+        @Html.TextBox("name", ViewBag.CurrentName as string, new {@class = "input-medium search-query", placeholder = "Category Name"})
+        <button type="submit" class="btn">Search</button>
+    </div>
+}
+
+
+@Html.Pager(Model.PageIndex, Model.TotalPages, x => Url.Action("Index", new {page = x}), "pagination-small")
+
+<table class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Products</th>
+            <th>Categories</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CategoryViewModel category in Model) {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+                <td>@category.NumberOfProducts</td>
+                <td>@category.NumberOfCategories</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            Action <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @{
+                                var routevalues = category.GetIdValue();  
+                                <li>@Html.ActionLink("Edit", "Edit", routevalues)</li>
+                                <li>@Html.ActionLink("Details", "Details", routevalues)</li>
+                                <li class="divider"></li>
+                                <li>@Html.ActionLink("Delete", "Delete", routevalues)</li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+ @Html.Pager(Model.PageIndex, Model.TotalPages, x => Url.Action("Index", new {page = x}), "pagination-small")

@@ -1,0 +1,32 @@
+﻿@using CI3540.UI.Areas.Store.Models
+@using CI3540.UI.BootstrapSupport
+
+
+@{
+
+    var currentStage = (OrderStage) ViewBag.OrderStage;
+
+    <h4 class="muted" style="text-align: center;">Order Process</h4>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav nav-pills" style="float: none; margin-left:auto; margin-right:auto;">
+                
+                @foreach (OrderStage stage in Enum.GetValues(typeof(OrderStage)))
+                {
+                    if (stage == currentStage)
+                    {
+                        <li class="active">
+                            <a href="@Url.Action("Checkout", "Cart")"><i class="icon-shopping-cart"></i> @stage.DescriptionAttr()</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="disabled"><a href="#"><i class="icon-chevron-right"></i> @stage.DescriptionAttr()</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    
+    
+}

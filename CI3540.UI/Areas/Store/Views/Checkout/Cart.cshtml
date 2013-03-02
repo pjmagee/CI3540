@@ -1,0 +1,113 @@
+﻿
+@using CI3540.UI.Areas.Store.Models
+
+@{
+    ViewBag.Title = "Checkout";
+    ViewBag.OrderStage = OrderStage.Verify;
+}
+
+<h2>Please Verify your cart</h2>
+
+
+@section SideBar 
+{ 
+
+    @{
+
+        var categories = ViewBag.Categories as IEnumerable<CategoryViewModel>;
+        
+        if (categories != null)
+        {
+            @Html.Partial("_categories", categories)
+        }
+        
+    }
+
+}
+
+@section OrderStage
+{
+   @Html.Partial("_stage")
+}
+
+@section OrderProcess
+{
+    @{
+        var cart = ViewBag.Cart as CartViewModel;
+
+        <table class="table table-bordered table-striped">
+            <caption>Your Shopping Cart</caption>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in cart.OrderLineViewModels)
+                {
+                    <!-- ORDER LINE -->
+                    <tr> 
+                        <!-- PRODUCT -->
+                        <td>
+                            <span class="cart-item-product">
+                                <a style="width: 120px; overflow: hidden; text-overflow: ellipsis; display: block;" href="@Url.Action("Details", "Products", new {area = "Store", id = item.ProductId})">@item.ProductName</a>
+                            </span>
+                        </td> 
+            
+                        <!-- QTY -->
+                        <td>
+                            <span class="cart-item-quantity label">@string.Format("x{0}", item.Quantity)</span>
+                        </td> 
+            
+                        <!-- PRICE -->
+                        <td>
+                            <span class="cart-item-cost label label-info">@item.Total.ToString("C")</span>
+                        </td>
+                        
+                        <!-- STATUS -->
+                        <td>
+                            <span class="cart-item-status">@item.Status</span>
+                        </td> 
+            
+                        <!-- ADD / REM / DEL -->
+                        <td>
+                            <span title="Add Item" class="cart-item-add">
+                                <a class="btn btn-mini btn-success" href="@Url.Action("Add", "Cart", new {orderlineId = item.Id, productId = item.ProductId, quantity = 1})">+</a>
+                            </span>
+                            <span title="Remove Item" class="cart-item-remove">
+                                <a class="btn btn-mini btn-warning" href="@Url.Action("Remove", "Cart", new {orderLineId = item.Id, productId = item.ProductId, quantity = 1})">-</a>
+                            </span>
+                            <span title="Delete" class="cart-item-remove">
+                                <a class="btn btn-mini btn-danger" href="@Url.Action("Remove", "Cart", new {orderlineId = item.Id, productId = item.ProductId, remove = true,})">x</a>
+                            </span>
+                        </td> 
+                    </tr>
+                }
+    
+                <!-- VAT -->
+                <tr>
+                    <th colspan="2">VAT @@ 17.5%</th>
+                    <td>@((cart.Total - cart.Tax).ToString("C"))</td>
+                    <td>-</td>
+                </tr> 
+    
+                <!-- TOTAL -->
+                <tr>
+                    <th colspan="2">Total</th>
+                    <td>@cart.Total.ToString("C")</td>
+                    <td>-</td>
+                </tr> 
+    
+            </tbody>
+        </table>
+
+        <a href="@Url.Action("Delivery", "Checkout", new { area = "Store" })" type="submit" class="btn btn-success btn-block pull-right">
+            Continue <i class="icon-chevron-right"></i>
+        </a>
+    }
+}
+

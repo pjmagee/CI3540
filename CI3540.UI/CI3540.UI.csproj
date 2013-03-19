@@ -417,7 +417,6 @@
     <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Delete.cshtml" />
-    <Content Include="Content\themes\bootstrap\images\Thumbs.db" />
     <Content Include="Areas\Store\Views\Shared\_listing.layout.cshtml" />
     <Content Include="Areas\Store\Views\Checkout\Cart.cshtml" />
     <Content Include="Areas\Store\Views\Shared\_checkout.layout.cshtml" />

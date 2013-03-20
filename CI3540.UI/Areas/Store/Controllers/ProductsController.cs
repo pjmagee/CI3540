@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using CI3540.UI.BootstrapSupport.HtmlHelpers.Paging;
 using CI3540.UI.Controllers;
 using CI3540.UI.Services;
+using CI3540.UI.Utils.HtmlHelpers.Paging;
 using Ninject;
 using WebMatrix.WebData;
 
@@ -44,7 +44,7 @@ namespace CI3540.UI.Areas.Store.Controllers
             int pageNumber = (page ?? 1);
             ViewBag.PageSize = new SelectList(new[] {"5", "10", "15", "20" }, pageSize);
 
-            if (WebSecurity.IsAuthenticated)
+            if (User.IsInRole("Customer"))
             {
                 ViewBag.Cart = cartService.GetCartByCustomerId(WebSecurity.CurrentUserId);
             }

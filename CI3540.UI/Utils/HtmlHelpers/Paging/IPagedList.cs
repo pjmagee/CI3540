@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace CI3540.UI.BootstrapSupport.HtmlHelpers.Paging
+namespace CI3540.UI.Utils.HtmlHelpers.Paging
 {
     public interface IPagedList<T> : IPagedList, IList<T>
     {

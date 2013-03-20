@@ -30,7 +30,13 @@ namespace CI3540.UI.Services.Impl
 
         public IEnumerable<ProductViewModel> GetProductsByCategoryId(int? id)
         {
-            var products = id != null ? context.Products.Where(p => p.Categories.Any(c => c.Id == id || c.ParentId == id)).ToList() : context.Products.ToList();
+            List<Product> products = context.Products.ToList();
+
+            if (id != null)
+            {
+                products = products.Where(p => p.Categories.Any(c => c.Id == id || c.ParentId == id)).ToList();
+            }
+
             return Mapper.Map<List<Product>, List<ProductViewModel>>(products);
         }
 

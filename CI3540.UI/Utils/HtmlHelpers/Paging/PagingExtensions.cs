@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CI3540.UI.BootstrapSupport.HtmlHelpers.Paging
+namespace CI3540.UI.Utils.HtmlHelpers.Paging
 {
     public static class PagingExtensions
     {

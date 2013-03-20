@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace CI3540.UI.BootstrapSupport.HtmlHelpers
+namespace CI3540.UI.Utils.HtmlHelpers
 {
     public static class GlyphIcons
     {

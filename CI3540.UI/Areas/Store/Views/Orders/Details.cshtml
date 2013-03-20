@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+
+@model CI3540.UI.Areas.Store.Models.OrderViewModel
+
+<h2>Order Details</h2>
+
+<fieldset>
+    <legend>Order</legend>
+    
+    <dl class="dl-horizontal">
+        <dt>Status</dt>
+        <dd>@Html.DisplayFor(model => model.Status)</dd>
+        <dt>Tax</dt>
+        <dd>@Html.DisplayFor(model => model.Tax)</dd>
+        <dt>Total</dt>
+        <dd>@Html.DisplayFor(model => model.Total)</dd>
+        <dt>Order Items</dt>
+        <dd>@Model.OrderLineViewModels.Count()</dd>
+        <dt>Updated</dt>
+        <dd>@Model.DateModified</dd>
+    </dl>
+</fieldset>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", "Products", new { area = "Store" })
+</p>
+

@@ -21,6 +21,7 @@ namespace CI3540.UI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            DatabaseConfig.RegisterDatabase();
 
             AutoMapperConfig.RegisterConfig();
 

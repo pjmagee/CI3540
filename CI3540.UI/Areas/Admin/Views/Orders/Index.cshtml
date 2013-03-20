@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@using CI3540.UI.Areas.Admin.Models
+@using CI3540.UI.Utils.HtmlHelpers.Paging
+@model IPagedList<OrderSummaryViewModel>
+
+<h2>Customer Orders</h2>
+
+@using (Html.BeginForm("Index", "Orders", new { area ="Admin" }, FormMethod.Get, new {@class = "form-search form-inline pull-right"}))
+{
+    <div class="input-prepend">
+        <span class="add-on">
+            <i class="icon-list"></i>
+        </span>
+        @Html.DropDownList("orderStatus", (SelectList) ViewBag.StatusDropDown, "Order Status", new {@class = "input-large"})
+    </div>
+
+    <div class="input-append">
+        @Html.TextBox("name", ViewBag.CurrentName as string, new {@class = "input-medium search-query", placeholder = "Customer id"})
+        <button type="submit" class="btn">Search</button>
+    </div>
+}
+
+
+@Html.Pager(Model.PageIndex, Model.TotalPages, x => Url.Action("Index", new {page = x}), "pagination-small")
+
+<table class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Number of Items</th>
+            <th>Status</th>
+            <th>Customer Id</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (OrderSummaryViewModel order in Model) {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.Items</td>
+                <td>@order.Status</td>
+                <td>@order.CustomerId</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                            Action <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            @{
+                                <li>@Html.ActionLink("Edit", "Edit", new { id = order.OrderId })</li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+ @Html.Pager(Model.PageIndex, Model.TotalPages, x => Url.Action("Index", new {page = x}), "pagination-small")

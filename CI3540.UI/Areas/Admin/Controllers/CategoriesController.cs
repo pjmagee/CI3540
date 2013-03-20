@@ -6,14 +6,15 @@ using CI3540.Core.Entities;
 using CI3540.Infrastructure.EntityFramework;
 using CI3540.UI.Areas.Admin.Models;
 using CI3540.UI.Areas.Store.Models;
-using CI3540.UI.BootstrapSupport.HtmlHelpers.Paging;
 using CI3540.UI.Controllers;
 using CI3540.UI.Services;
+using CI3540.UI.Utils.HtmlHelpers.Paging;
 using Ninject;
 
 namespace CI3540.UI.Areas.Admin.Controllers
 {
     /// <summary>
+    /// An issue I had, link kept for reminder
     /// http://stackoverflow.com/questions/4867602/entity-framework-there-is-already-an-open-datareader-associated-with-this-comma
     /// </summary>
     [Authorize(Roles = "Admin")]
@@ -58,7 +59,7 @@ namespace CI3540.UI.Areas.Admin.Controllers
         public ActionResult Index(int? page, int? categoryId, string name, int pageSize = 10)
         {
             var pageNumber = (page ?? 1);
-            var categories = categoryService.GetCategories(categoryId, name);
+            var categories = categoryId == null ? categoryService.GetCategories() : categoryService.GetCategories(categoryId, name);
             ViewBag.CurrentName = name;
             ViewBag.Categories = new SelectList(categoryService.GetParentCategories(), "Id", "Name", categoryId);
             return View("Index", categories.ToPagedList(pageNumber, pageSize));

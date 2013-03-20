@@ -13,13 +13,11 @@ namespace CI3540.UI.Areas.Store.Controllers
     {
         private readonly IUserService userService;
         private readonly ICartService cartService;
-        private readonly ICategoryService categoryService;
         private readonly IOrderService orderService;
 
         [Inject]
-        public CheckoutController(ICategoryService categoryService, ICartService cartService, IUserService userService, IOrderService orderService)
+        public CheckoutController(ICartService cartService, IUserService userService, IOrderService orderService)
         {
-            this.categoryService = categoryService;
             this.cartService = cartService;
             this.userService = userService;
             this.orderService = orderService;
@@ -36,7 +34,6 @@ namespace CI3540.UI.Areas.Store.Controllers
         [HttpGet]
         public ActionResult Delivery()
         {
-            //ViewBag.Categories = categoryService.GetCategories();
             ViewBag.Addresses = new SelectList(userService.GetCustomerAddresses(WebSecurity.CurrentUserId), "Id", "AddressLine1");
             return View("Delivery");
         }
@@ -46,7 +43,9 @@ namespace CI3540.UI.Areas.Store.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Create the other
                 var order = orderService.CreateOrderForCustomerId(WebSecurity.CurrentUserId);
+                // Set the order billing and delivery addresses
                 orderService.SetBillingAddress(order.Id, model.InvoiceAddressId);
                 orderService.SetDeliveryAddress(order.Id, model.DeliveryAddressId);
 
@@ -55,7 +54,6 @@ namespace CI3540.UI.Areas.Store.Controllers
                 return RedirectToAction("Payment", "Checkout");
             }
 
-            //ViewBag.Categories = categoryService.GetCategories();
             ViewBag.Addresses = new SelectList(userService.GetCustomerAddresses(WebSecurity.CurrentUserId), "Id", "AddressLine1");
             return View(model);
         }
@@ -70,28 +68,10 @@ namespace CI3540.UI.Areas.Store.Controllers
         [HttpPost]
         public ActionResult Payment(PaymentViewModel model)
         {
-
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Confirm");
-            }
-
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult Confirm(bool confirmed = false)
-        {
-            ViewBag.Stage = OrderStage.Confirm;
-
-            if (confirmed)
-            {
-                var orderId = int.Parse(Session["OrderId"].ToString());
-                var order = orderService.GetOrderById(orderId);
-                return RedirectToAction("Status", "Orders", new { area = "Store", id = order.Id });
-            }
-
-            return View();
+            Information("Payment was successfull.");
+            orderService.GetOrderById((int) Session["OrderId"]);
+            cartService.DeleteCartByCustomerId(WebSecurity.CurrentUserId);
+            return RedirectToAction("Manage", "Account", new { area = "" });
         }
     }
 }

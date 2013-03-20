@@ -13,6 +13,12 @@ namespace CI3540.Infrastructure.EntityFramework
 {
     public class StoreContextInitializer : CreateDatabaseIfNotExists<StoreContext>
     {
+
+        // I used the built in WebSecurity in ASP.NET MVC 
+        // Andadd two roles to the site for Administrators and Customers
+        // WebSecurity creates its own tables and so you pass in the connection from the app.config file
+        // which contains the connection string
+
         private static void InitializeWebSecurity()
         {
             // http://blog.longle.net/2012/09/25/seeding-users-and-roles-with-mvc4-simplemembershipprovider-simpleroleprovider-ef5-codefirst-and-custom-user-properties/
@@ -32,6 +38,10 @@ namespace CI3540.Infrastructure.EntityFramework
         }
         
         // SEED THE DATABASE WITH THIS FAKE DATA
+        // I used a Library called Faker.Net and another library called Nbuilder
+        // with these I was able to seet my database with inital products
+        // and categories so that data pre-exists in the website
+
         protected override void Seed(StoreContext context)
         {
             InitializeWebSecurity();
@@ -147,7 +157,7 @@ namespace CI3540.Infrastructure.EntityFramework
         private static IEnumerable<Customer> CreateCustomers(RandomGenerator generator, IList<Category> categories)
         {
             var customers = Builder<Customer>
-                .CreateListOfSize(10)
+                .CreateListOfSize(5)
                 .All()
                 .Do(c =>
                     {
@@ -286,7 +296,7 @@ namespace CI3540.Infrastructure.EntityFramework
         private static IList<Product> CreateProducts(RandomGenerator generator, Category cc)
         {
             var products = Builder<Product>
-                .CreateListOfSize(generator.Next(1, 50))
+                .CreateListOfSize(generator.Next(1, 30))
                 .All()
                 .Do(p =>
                     {

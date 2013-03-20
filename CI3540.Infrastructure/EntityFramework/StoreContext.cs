@@ -17,6 +17,9 @@ namespace CI3540.Infrastructure.EntityFramework
             Configuration.ValidateOnSaveEnabled = true; // Validate On Saving for Data Integrity
         }
 
+        // These are all the entities which Entity Framework maps to a real Database entity
+        // These are what I call in my service layer to get the entities from the database
+
         public DbSet<User> Users { get; set; } 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -40,6 +43,10 @@ namespace CI3540.Infrastructure.EntityFramework
 
         private void ConfigureModel(DbModelBuilder modelBuilder)
         {
+            // With entity framework you can create configurations for your entity classes
+            // and then from ModelBuilder you add these configurations which
+            // define all the associations between the entites as well as data integrity 
+
             modelBuilder
                 .Configurations
                 .Add(new UserConfiguration())

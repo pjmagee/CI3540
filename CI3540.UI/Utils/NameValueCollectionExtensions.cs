@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Web.Routing;
 
-namespace CI3540.UI.BootstrapSupport
+namespace CI3540.UI.Utils
 {
     public static class NameValueCollectionExtensions
     {

@@ -33,7 +33,7 @@
         </div>
         
         <div class="control-group">
-            @Html.LabelFor(category => category.ParentId, new { @class = "control-label" })
+            @Html.LabelFor(category => category.ParentId, "Parent Category", new { @class = "control-label" })
             <div class="controls">
                 @Html.DropDownListFor(model => model.ParentId, (SelectList) ViewBag.Categories, "Category", new {@class = "input-xlarge"})
                 @Html.ValidationMessageFor(model => model.ParentId, null, new {@class = "help-inline"})

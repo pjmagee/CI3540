@@ -1,7 +1,7 @@
 using System;
 using System.Web.Mvc;
 
-namespace CI3540.UI.BootstrapSupport
+namespace CI3540.UI.Utils
 {
     public class ControlGroup : IDisposable
     {

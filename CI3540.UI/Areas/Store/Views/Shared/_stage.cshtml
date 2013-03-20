@@ -1,6 +1,6 @@
-﻿@using CI3540.UI.Areas.Store.Models
-@using CI3540.UI.BootstrapSupport
-
+﻿
+@using CI3540.UI.Areas.Store.Models
+@using CI3540.UI.Utils
 
 @{
 
@@ -16,7 +16,7 @@
                     if (stage == currentStage)
                     {
                         <li class="active">
-                            <a href="@Url.Action("Checkout", "Cart")"><i class="icon-shopping-cart"></i> @stage.DescriptionAttr()</a>
+                            <a href="@Url.Action(ViewContext.RouteData.Values["action"] as string, "Checkout")"><i class="icon-shopping-cart"></i> @stage.DescriptionAttr()</a>
                         </li>
                     }
                     else

@@ -33,7 +33,7 @@ namespace CI3540.UI.Services.Impl
 
             if (customer.Cart == null)
             {
-                customer.Cart = new Cart { Created = DateTime.Now, Modified = DateTime.Now, Customer = customer, CustomerId = customer.Id };
+                customer.Cart = new Cart { Created = DateTime.Now, Modified = DateTime.Now, Customer = customer, CustomerId = customer.Id, OrderLines = new Collection<OrderLine>() };
             }
 
             var cart = customer.Cart;
@@ -97,6 +97,13 @@ namespace CI3540.UI.Services.Impl
         public CartViewModel GetCartByOrderLineId(int orderLineId)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteCartByCustomerId(int customerId)
+        {
+            var customer = context.Customers.Find(customerId);
+            context.Carts.Remove(customer.Cart);
+            context.SaveChanges();
         }
     }
 }

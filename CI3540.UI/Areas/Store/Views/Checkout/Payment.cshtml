@@ -1,5 +1,4 @@
 ﻿
-@using AuthorizeNet.Helpers
 @using CI3540.UI.Areas.Store.Models
 @model PaymentViewModel
 @{
@@ -30,7 +29,8 @@
 
 @section OrderProcess
 {
-    <form class="form-inline">
+    @using (Html.BeginForm("Payment", "Checkout", FormMethod.Post, new { @class = "form-inline" }))
+    {
         <fieldset>
             <legend>Card Details</legend>
             
@@ -38,25 +38,35 @@
                 <div class="control-group">
                     <label class="control-label">Card Number</label>
                     <div class="controls">
-                        <input type="text" placeholder="Your Credit or Debit Card Number" />
+                        @Html.TextBoxFor(model => model.CreditCardNumber, new { placeholder = "Your Credit or Debit Card Number" })
                     </div>
                 </div>
             </div>
             
             <div class="form-horizontal">
-                 <div class="control-group">
-                <label class="control-label">Exp. Date</label>
-                <div class="controls">
-                    <input type="text"  class="input-mini" />
-                </div></div>
+                <div class="control-group">
+                    <label class="control-label">From Date</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.FromDate, new { placeholder = "mm/yyyy", type = "text", @class="input-mini" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">Exp. Date</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.ExpiryDate, new { placeholder = "mm/yyyy", type = "text", @class="input-mini" })
+                    </div>
+                </div>
             </div>
             
             <div class="form-horizontal">
-                 <div class="control-group">
-                <label class="control-label">CCV</label>
-                <div class="controls">
-                    <input type="text" class="input-mini" placeholder="XXX" />
-                </div></div>
+                <div class="control-group">
+                    <label class="control-label">CCV</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(model => model.CCV, new { placeholder = "XXX", type = "text", @class="input-mini" })
+                    </div></div>
             </div>
         
             <div class="form-actions">
@@ -65,5 +75,6 @@
             </div>
 
         </fieldset>
-    </form>
+    }
+   
 }

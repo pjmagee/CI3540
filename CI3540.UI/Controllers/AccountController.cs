@@ -80,7 +80,8 @@ namespace CI3540.UI.Controllers
         {
             WebSecurity.Logout();
             Information("You have been logged out.");
-            return RedirectToAction("Index", "Home");
+            Session.Clear();
+            return RedirectToAction("Index", "Products", new { area = "Store" });
         }
 
         [HttpGet]
@@ -100,12 +101,11 @@ namespace CI3540.UI.Controllers
                 try
                 {
                     var customer = userService.CreateCustomer(model);
-
                     WebSecurity.CreateAccount(customer.Email, model.Password);
                     WebSecurity.Login(customer.Email, model.Password);
 
                     Attention(string.Format("Welcome {0}, you have logged in.", customer.Forename));
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Products", new { area = "Store" });
                 }
                 catch (MembershipCreateUserException e)
                 {

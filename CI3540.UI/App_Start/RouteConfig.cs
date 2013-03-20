@@ -9,7 +9,6 @@ namespace CI3540.UI.App_Start
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
 
             routes.MapRoute(
                 name: "Account",
@@ -18,16 +17,9 @@ namespace CI3540.UI.App_Start
             );
 
             routes.MapRoute(
-                name: "Home",
-                url: "Home/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-            );
-
-
-            routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}",
+                defaults: new { controller = "Account", action = "Login" }
             );
 
         }

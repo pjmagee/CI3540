@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Web.Routing;
 
-namespace CI3540.UI.BootstrapSupport
+namespace CI3540.UI.Utils
 {
     /// <summary>
     /// From Geeks With Blogs

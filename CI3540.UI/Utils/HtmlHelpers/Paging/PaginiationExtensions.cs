@@ -20,7 +20,7 @@ public ActionResult Index(int page = 1)
 }
 */
 
-namespace CI3540.UI.BootstrapSupport.HtmlHelpers.Paging
+namespace CI3540.UI.Utils.HtmlHelpers.Paging
 {
     public static class PaginiationExtensions
     {

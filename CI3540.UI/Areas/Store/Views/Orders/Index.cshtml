@@ -1,0 +1,32 @@
+﻿@using CI3540.UI.Areas.Store.Models
+@model IEnumerable<OrderViewModel>
+
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_basic.layout.cshtml";
+}
+
+<h2>Order History</h2>
+
+<table class="table table-bordered table-striped table-condensed table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Created On</th>
+            @*<th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (OrderViewModel order in Model) {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Total</td>
+                <td>@order.Status</td>
+                <td>@order.DateCreated.ToShortDateString()</td>
+
+            </tr>
+        }
+    </tbody>
+</table>

@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace CI3540.UI.BootstrapSupport.HtmlHelpers
+namespace CI3540.UI.Utils.HtmlHelpers
 {
     /// <summary>
     /// From Andrei Volkov

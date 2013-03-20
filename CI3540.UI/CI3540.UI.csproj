@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,38 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsInferRequires>False</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
+    <CodeContractsSuggestEnsures>False</CodeContractsSuggestEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -205,12 +238,14 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\DatabaseConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Models\EditProductViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\OrderSummaryViewModel.cs" />
     <Compile Include="Areas\Store\Controllers\CheckoutController.cs" />
     <Compile Include="Areas\Store\Models\ConfirmViewModel.cs" />
     <Compile Include="Areas\Store\Models\DeliveryAddressViewModel.cs" />
@@ -224,7 +259,6 @@
     <Compile Include="Areas\Store\Models\ProductImageViewModel.cs" />
     <Compile Include="Areas\Store\Models\ProductSummaryViewModel.cs" />
     <Compile Include="Areas\Store\Models\ProductViewModel.cs" />
-    <Compile Include="Areas\Store\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Store\Models\OrderViewModel.cs" />
     <Compile Include="Areas\Store\Models\CustomerViewModel.cs" />
     <Compile Include="Areas\Store\Controllers\CartController.cs" />
@@ -233,18 +267,18 @@
     <Compile Include="Areas\Store\Models\OrderLineViewModel.cs" />
     <Compile Include="Areas\Store\Models\ReviewViewModel.cs" />
     <Compile Include="Binders\CommaSeparatedModelBinder.cs" />
-    <Compile Include="BootstrapSupport\Alerts.cs" />
-    <Compile Include="BootstrapSupport\ControlGroup.cs" />
-    <Compile Include="BootstrapSupport\EnumExtensions.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelperExtensions.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelpers\Paging\IPagedList.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelpers\Paging\PagedList.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelpers\Paging\PagingExtensions.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelpers\UrlHelperExtensions.cs" />
-    <Compile Include="BootstrapSupport\RequestExtensions.cs" />
-    <Compile Include="BootstrapSupport\NameValueCollectionExtensions.cs" />
-    <Compile Include="BootstrapSupport\PropertyInfoExtensions.cs" />
-    <Compile Include="BootstrapSupport\StringExtenstions.cs" />
+    <Compile Include="Utils\Alerts.cs" />
+    <Compile Include="Utils\ControlGroup.cs" />
+    <Compile Include="Utils\EnumExtensions.cs" />
+    <Compile Include="Utils\HtmlHelperExtensions.cs" />
+    <Compile Include="Utils\HtmlHelpers\Paging\IPagedList.cs" />
+    <Compile Include="Utils\HtmlHelpers\Paging\PagedList.cs" />
+    <Compile Include="Utils\HtmlHelpers\Paging\PagingExtensions.cs" />
+    <Compile Include="Utils\HtmlHelpers\UrlHelperExtensions.cs" />
+    <Compile Include="Utils\RequestExtensions.cs" />
+    <Compile Include="Utils\NameValueCollectionExtensions.cs" />
+    <Compile Include="Utils\PropertyInfoExtensions.cs" />
+    <Compile Include="Utils\StringExtenstions.cs" />
     <Compile Include="Controllers\BootstrapBaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Store\Models\CategoryViewModel.cs" />
@@ -254,12 +288,13 @@
     <Compile Include="Areas\Admin\Controllers\EmployeesController.cs" />
     <Compile Include="Areas\Store\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Store\StoreAreaRegistration.cs" />
-    <Compile Include="BootstrapSupport\ControlGroupExtensions.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelpers\GlyphIcons.cs" />
-    <Compile Include="BootstrapSupport\HtmlHelpers\Paging\PaginiationExtensions.cs" />
-    <Compile Include="BootstrapSupport\DefaultScaffoldingExtensions.cs" />
+    <Compile Include="Utils\ControlGroupExtensions.cs" />
+    <Compile Include="Utils\HtmlHelpers\GlyphIcons.cs" />
+    <Compile Include="Utils\HtmlHelpers\Paging\PaginiationExtensions.cs" />
+    <Compile Include="Utils\DefaultScaffoldingExtensions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Areas\Store\Controllers\OrdersController.cs" />
     <Compile Include="Filters\DynamicCategoriesAttribute.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -285,15 +320,15 @@
     <Compile Include="NavigationRoutes\NavigationRouteFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ICartService.cs" />
+    <Compile Include="Services\ICategoryService.cs" />
     <Compile Include="Services\Impl\CartService.cs" />
     <Compile Include="Services\Impl\CategoryService.cs" />
-    <Compile Include="Services\ICategoryService.cs" />
-    <Compile Include="Services\IOrderService.cs" />
-    <Compile Include="Services\IProductService.cs" />
-    <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\Impl\OrderService.cs" />
     <Compile Include="Services\Impl\ProductService.cs" />
     <Compile Include="Services\Impl\UserService.cs" />
+    <Compile Include="Services\IOrderService.cs" />
+    <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Services\IUserService.cs" />
     <Compile Include="Validation\AddressViewModelValidator.cs" />
     <Compile Include="Validation\CategoryValidator.cs" />
     <Compile Include="Validation\CustomerValidator.cs" />
@@ -429,9 +464,8 @@
     <Content Include="Areas\Store\Views\Shared\_verify.cshtml" />
     <Content Include="Areas\Store\Views\Checkout\Delivery.cshtml" />
     <Content Include="Areas\Store\Views\Checkout\Payment.cshtml" />
-    <Content Include="Areas\Store\Views\Orders\History.cshtml" />
-    <Content Include="Areas\Store\Views\Orders\Status.cshtml" />
-    <Content Include="Areas\Store\Views\Checkout\Confirm.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Edit.cshtml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -499,6 +533,8 @@
     <Content Include="Views\Shared\_html5shiv.cshtml" />
     <Content Include="Views\Shared\_validationSummary.cshtml" />
     <Content Include="Views\Shared\_alerts.cshtml" />
+    <Content Include="Areas\Store\Views\Orders\Index.cshtml" />
+    <Content Include="Areas\Store\Views\Orders\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

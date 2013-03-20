@@ -3,9 +3,9 @@ using System.Linq;
 using System.Web.Mvc;
 using CI3540.UI.Areas.Admin.Models;
 using CI3540.UI.Binders;
-using CI3540.UI.BootstrapSupport.HtmlHelpers.Paging;
 using CI3540.UI.Controllers;
 using CI3540.UI.Services;
+using CI3540.UI.Utils.HtmlHelpers.Paging;
 using Ninject;
 
 namespace CI3540.UI.Areas.Admin.Controllers
@@ -49,7 +49,6 @@ namespace CI3540.UI.Areas.Admin.Controllers
             {
                 products = products.Where(p => p.Name.Contains(name)).ToList();
             }
-
             ViewBag.Categories = new SelectList(categoryService.GetParentCategories(), "Id", "Name");
 
             return View(products.ToPagedList(pageNumber, pageSize));

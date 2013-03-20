@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace CI3540.UI.BootstrapSupport
+namespace CI3540.UI.Utils
 {
     public static class PropertyInfoExtensions
     {

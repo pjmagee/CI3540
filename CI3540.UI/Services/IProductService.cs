@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CI3540.UI.Areas.Admin.Models;
 using CI3540.UI.Areas.Store.Models;
 

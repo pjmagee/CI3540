@@ -18,12 +18,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="@Url.Action("Index", "Home", new { area = "" })">CI3540</a>
+                    <a class="brand" href="@Url.Action("Index", "Products", new { area = "Store" })">E-Store [NOT A REAL SHOP]</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li>
-                                @Html.ActionLink("Index", "Index", "Home", new { area = "" }, null)
-                            </li>
                             <li>
                                 @Html.ActionLink("Store", "Index", "Products", new { area = "Store" }, null)
                             </li>
@@ -36,17 +33,21 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @Html.ActionLink("Category Listing", "Index", "Categories", new {area = "Admin"}, null)
+                                        @Html.ActionLink("Category Listing", "Index", "Categories", new { area = "Admin" }, null)
                                     </li>
                                     <li>
-                                        @Html.ActionLink("Add Category", "Create", "Categories", new {area = "Admin"}, null)
+                                        @Html.ActionLink("Add Category", "Create", "Categories", new { area = "Admin" }, null)
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        @Html.ActionLink("Product Listing", "Index", "Products", new {area = "Admin"}, null)
+                                        @Html.ActionLink("Product Listing", "Index", "Products", new { area = "Admin" }, null)
                                     </li>
                                     <li>
-                                        @Html.ActionLink("Add Product", "Create", "Products", new {area = "Admin"}, null)
+                                        @Html.ActionLink("Add Product", "Create", "Products", new { area = "Admin" }, null)
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        @Html.ActionLink("Customer Orders", "Index", "Orders", new {area = "Admin"}, null)
                                     </li>
                                 </ul>
                             </div>
@@ -60,10 +61,16 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     @{
-                                        <li>@Html.ActionLink("Manage", "Manage", "Account", new { area = ""}, null)</li>
+                                        <li>@Html.ActionLink("Manage", "Manage", "Account", new { area = "" }, null)</li>
+                                        
+                                        if (User.IsInRole("Customer"))
+                                        {
+                                            <li>@Html.ActionLink("Orders", "Index", "Orders", new { area = "Store" }, null)</li>
+                                        }
+                                        
                                         <li class="divider"></li>
                                         <li>
-                                            @using (Html.BeginForm("LogOff", "Account", new { area = ""}, FormMethod.Post, new { id = "logoff" }))
+                                            @using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoff" }))
                                             {
                                                 @Html.AntiForgeryToken()
                                             }

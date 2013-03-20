@@ -11,5 +11,7 @@ namespace CI3540.UI.Services
         CartViewModel GetCartByCartId(int cartId);
         CartViewModel GetCartByOrderLineId(int orderLineId);
 
+        void DeleteCartByCustomerId(int customerId);
+
     }
 }

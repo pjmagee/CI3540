@@ -32,12 +32,12 @@ namespace CI3540.UI.Mappings.Profiles
 
             // source --> destination
             CreateMap<Product, ProductSummaryViewModel>()
-                .ForMember(model => model.DefaultImageUrl, opt => opt.MapFrom(product => product.ProductImages.First(image => image.Primary).Path));
+                .ForMember(model => model.DefaultImageUrl, opt => opt.MapFrom(product => product.ProductImages.FirstOrDefault(image => image.Primary).Path));
 
             // source --> destination
             CreateMap<Product, ProductViewModel>()
                 .ForMember(model => model.Tags, opt => opt.ResolveUsing(CategoryTagResolver))
-                .ForMember(model => model.DefaultImageUrl, opt => opt.MapFrom(product => product.ProductImages.First(image => image.Primary).Path))
+                .ForMember(model => model.DefaultImageUrl, opt => opt.MapFrom(product => product.ProductImages.FirstOrDefault(image => image.Primary).Path))
                 .ForMember(model => model.Images, opt => opt.ResolveUsing(ImagesResolver))
                 .ForMember(model => model.Reviews, opt => opt.ResolveUsing(ReviewResolver));
 
@@ -46,7 +46,7 @@ namespace CI3540.UI.Mappings.Profiles
                 .ForMember(model => model.Tags, opt => opt.ResolveUsing(CategoryTagResolver))
                 .ForMember(model => model.Images, opt => opt.ResolveUsing(ImagesResolver))
                 .ForMember(model => model.Files, opt => opt.Ignore())
-                .ForMember(model => model.SelectedDefaultImage, opt => opt.MapFrom(product => product.ProductImages.SingleOrDefault(image => image.Primary).Id))
+                .ForMember(model => model.SelectedDefaultImage, opt => opt.MapFrom(product => product.ProductImages.FirstOrDefault(image => image.Primary).Id))
                 .ForMember(model => model.CategoryIds, opt => opt.MapFrom(product => product.Categories.Select(category => category.Id)));
         }
 

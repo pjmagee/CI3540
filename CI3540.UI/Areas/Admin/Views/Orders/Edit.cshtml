@@ -1,0 +1,41 @@
+﻿@model CI3540.UI.Areas.Store.Models.OrderViewModel
+
+@{
+    ViewBag.Title = "Edit Order";
+}
+
+<h2>Order Details</h2>
+
+<fieldset>
+    <legend>Order no. @Model.Id</legend>
+    
+    <dl class="dl-horizontal">
+        <dt>Status</dt>
+        <dd>@Model.Status</dd>
+        <dt>Total</dt>
+        <dd>@Model.Total.ToString("C")</dd>
+        <dt>Tax</dt>
+        <dd>@Model.Tax.ToString("C")</dd>
+        <dt>Order Items</dt>
+        <dd>@Model.OrderLineViewModels.Count()</dd>
+        <dt>Updated</dt>
+        <dd>@Model.DateModified.ToShortDateString()</dd>
+    </dl>
+</fieldset>
+
+@using (Html.BeginForm("UpdateStatus", "Orders", new { area = "Admin" }, FormMethod.Post))
+{
+    <fieldset>
+        <legend>Update Customer Order Status</legend>
+        
+        @Html.Hidden("Id", Model.Id)
+        @Html.DropDownList("Status", (SelectList)ViewBag.StatusDropDown, "Order Status")
+        
+        <div class="form-actions">
+            <input type="submit" value="Update Order" class="btn btn-primary"/>
+        </div>
+        
+    </fieldset>
+}
+
+

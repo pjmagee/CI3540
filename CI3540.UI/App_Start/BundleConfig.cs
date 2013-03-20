@@ -7,6 +7,8 @@ namespace CI3540.UI.App_Start
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            BundleTable.EnableOptimizations = false;
+
             bundles.Add(new ScriptBundle("~/js").Include(
                 "~/Scripts/jquery-1.9.1.js",
                 "~/Scripts/jquery-migrate-1.1.0.js",

@@ -106,6 +106,7 @@ namespace CI3540.UI.Controllers
                     var customer = userService.CreateCustomer(model);
                     WebSecurity.CreateAccount(customer.Email, model.Password);
                     WebSecurity.Login(customer.Email, model.Password);
+                    Roles.AddUserToRole(customer.Email, "Customer");
 
                     Attention(string.Format("Welcome {0}, you have logged in.", customer.Forename));
                     return RedirectToAction("Index", "Products", new { area = "Store" });

@@ -8,6 +8,9 @@ using WebMatrix.WebData;
 
 namespace CI3540.UI.Areas.Store.Controllers
 {
+    // DynamicCategories is the Customer ActionFilter attribute i created with automatically
+    // injects the Categories found on the Left of the page in a dynamic ViewBag.Categories
+    // This can be found in the Filters namespace.
     [DynamicCategories]
     public class CheckoutController : BootstrapBaseController
     {
@@ -71,7 +74,7 @@ namespace CI3540.UI.Areas.Store.Controllers
             Information("Payment was successfull.");
             orderService.GetOrderById((int) Session["OrderId"]);
             cartService.DeleteCartByCustomerId(WebSecurity.CurrentUserId);
-            return RedirectToAction("Manage", "Account", new { area = "" });
+            return RedirectToAction("Index", "Products", new { area = "Store" });
         }
     }
 }

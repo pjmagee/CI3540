@@ -33,7 +33,6 @@ namespace CI3540.UI.App_Start
                     MultipleActiveResultSets = true
                 };
 
-
                 configuration.ConnectionStrings.ConnectionStrings["DefaultConnection"].ConnectionString = sb.ConnectionString;
                 configuration.Save();
             }

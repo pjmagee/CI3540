@@ -10,7 +10,6 @@ using WebMatrix.WebData;
 namespace CI3540.UI.Controllers
 {
     [InitializeSimpleMembership]
-    [Authorize(Roles = "Admin, Customer")]
     public class AccountController : BootstrapBaseController
     {
         private readonly IUserService userService;
@@ -80,7 +79,6 @@ namespace CI3540.UI.Controllers
         {
             WebSecurity.Logout();
             Information("You have been logged out.");
-            Session.Clear();
             return RedirectToAction("Index", "Products", new { area = "Store" });
         }
 
@@ -98,6 +96,11 @@ namespace CI3540.UI.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (WebSecurity.IsAuthenticated)
+                {
+                    WebSecurity.Logout();
+                }
+
                 try
                 {
                     var customer = userService.CreateCustomer(model);

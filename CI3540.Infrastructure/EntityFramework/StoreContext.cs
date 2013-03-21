@@ -20,7 +20,7 @@ namespace CI3540.Infrastructure.EntityFramework
         // These are all the entities which Entity Framework maps to a real Database entity
         // These are what I call in my service layer to get the entities from the database
 
-        public DbSet<User> Users { get; set; } 
+        public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }

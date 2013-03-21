@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using CI3540.UI.Areas.Store.Models;
 using CI3540.UI.Controllers;
 using CI3540.UI.Services;
 using CI3540.UI.Utils.HtmlHelpers.Paging;
@@ -67,13 +68,5 @@ namespace CI3540.UI.Areas.Store.Controllers
         {
             return Json(null, JsonRequestBehavior.AllowGet);
         }
-
-        public class CommentViewModel
-        {
-            public int ProductId { get; set; }
-            public int CustomerId { get; set; }
-            public string Comment { get; set; }
-        }
-
     }
 }

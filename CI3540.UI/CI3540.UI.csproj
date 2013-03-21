@@ -238,6 +238,7 @@
     <Compile Include="Areas\Admin\Models\EditProductViewModel.cs" />
     <Compile Include="Areas\Admin\Models\OrderSummaryViewModel.cs" />
     <Compile Include="Areas\Store\Controllers\CheckoutController.cs" />
+    <Compile Include="Areas\Store\Models\CommentViewModel.cs" />
     <Compile Include="Areas\Store\Models\ConfirmViewModel.cs" />
     <Compile Include="Areas\Store\Models\DeliveryAddressViewModel.cs" />
     <Compile Include="Areas\Store\Models\PaymentViewModel.cs" />
